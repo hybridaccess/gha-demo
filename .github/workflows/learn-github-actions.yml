@@ -33,3 +33,5 @@ jobs:
           name: output-log-file
       - name: List current directory
         run: pwd && ls -al
+      - name: Read output file
+        run: cat /home/runner/work/gha-demo/gha-demo/output.log
