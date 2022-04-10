@@ -3,7 +3,7 @@ on: [push]
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
-    if: {{ github.environment == 'prod'  }}
+    if: github.environment == 'prod'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -13,7 +13,7 @@ jobs:
       - run: bats -v
   create-artifact:
     runs-on: ubuntu-latest
-    if: {{ github.environment == 'prod'  }}
+    if: github.environment == 'prod'
     needs: [check-bats-version]
     name: Save output
     steps:
