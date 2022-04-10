@@ -49,3 +49,5 @@ jobs:
         run: echo '${{ github.repository }}'
       - name: Github Token
         run: echo '${{ github.token}}'
+      - name: Github Context
+        run: echo '${{ github }}'
