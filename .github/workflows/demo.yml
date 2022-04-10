@@ -71,7 +71,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v1
+      - run: pwd
       - run: cd terraform
+      - run: pwd && ls -al
       - run: terraform version
       - run: terraform init
       - run: terraform plan
