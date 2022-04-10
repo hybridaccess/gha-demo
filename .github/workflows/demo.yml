@@ -89,9 +89,9 @@ jobs:
       # - run: pwd && ls -al
       - run: terraform version
       - name: Terraform fmt
-          id: fmt
-          run: terraform fmt -check
-          continue-on-error: false
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: false
       - run: terraform init
       - run: terraform validate
       - run: terraform plan -out tfplan
