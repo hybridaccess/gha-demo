@@ -69,6 +69,7 @@ jobs:
   terraform-workflow:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v1
       - run: cd terraform
       - run: terraform version
