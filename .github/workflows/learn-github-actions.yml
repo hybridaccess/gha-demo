@@ -39,5 +39,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: [consume-artifact]
     steps:
-      - name: Dump github context
-        run: echo '${{ github }}'
+      - name: Action Name
+        run: echo '${{ github.action }}'
+      - name: Action Repository
+        run: echo '${{ github.action_repository }}'
+      - name: Action User
+        run: echo '${{ github.actor}}'
+      - name: Github Repository
+        run: echo '${{ github.repository }}'
+      - name: Github Token
+        run: echo '${{ github.token}}'
