@@ -12,7 +12,7 @@ jobs:
       - run: bats -v
   create-artifact:
     runs-on: ubuntu-latest
-    if: $version == 'test'
+    if: $ENVIRONMENT == 'test'
     needs: [check-bats-version]
     name: Save output
     steps:
@@ -26,7 +26,7 @@ jobs:
           path: output.log
   consume-artifact:
     runs-on: ubuntu-latest
-    if: $version == 'test'
+    if: $ENVIRONMENT == 'test'
     needs: [create-artifact]
     steps:
       - name: Download a single artifact
@@ -39,7 +39,7 @@ jobs:
         run: cat /home/runner/work/gha-demo/gha-demo/output.log
   print-github-context:
     runs-on: ubuntu-latest
-    if: $version == 'test'
+    if: $ENVIRONMENT == 'test'
     needs: [consume-artifact]
     steps:
       - name: Action Name
@@ -76,6 +76,7 @@ jobs:
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ENVIRONMENT: 'sandbox'
     defaults:
       run:
         working-directory: ./terraform
