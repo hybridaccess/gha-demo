@@ -70,5 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: hashicorp/setup-terraform@v1
-      - run: terraform init '${{ runner.workspace }}/terraform'
-      - run: terraform plan '${{ runner.workspace }}/terraform'
+      - run: cd terraform
+      - run: terraform version
+      - run: terraform init
+      - run: terraform plan
