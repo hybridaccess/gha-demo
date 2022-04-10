@@ -27,7 +27,7 @@ jobs:
           path: output.log
   consume-artifact:
     runs-on: ubuntu-latest
-    if: {{ github.environment == 'prod'  }}
+    if: github.environment == 'prod'
     needs: [create-artifact]
     steps:
       - name: Download a single artifact
@@ -40,7 +40,7 @@ jobs:
         run: cat /home/runner/work/gha-demo/gha-demo/output.log
   print-github-context:
     runs-on: ubuntu-latest
-    if: {{ github.environment == 'prod'  }}
+    if: github.environment == 'prod'
     needs: [consume-artifact]
     steps:
       - name: Action Name
