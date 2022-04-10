@@ -1,4 +1,4 @@
-name: learn-github-actions
+name: demo-github-actions
 on: [push]
 jobs:
   check-bats-version:
@@ -70,4 +70,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: hashicorp/setup-terraform@v1
-      - run: terraform init
+      - run: terraform init {{ runner.workspace }}/terraform
+      - run: terraform plan {{ runner.workspace }}/terraform
