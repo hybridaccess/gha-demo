@@ -40,4 +40,4 @@ jobs:
     needs: [consume-artifact]
     steps:
       - name: Dump github context
-        run: echo {{ github }}
+        run: echo '${{ github }}'
