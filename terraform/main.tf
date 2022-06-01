@@ -8,15 +8,29 @@ resource "azurerm_resource_group" "rg" {
 resource "null_resource" "demo" {
 
   provisioner "local-exec" {
-    command = <<-EOT
-      ls
-      whoami
-      pwd
-    EOT
+    command = <<EOF
+ls
+
+whoami
+pwd
+EOF
   }
 
 
   triggers = {
     always_run = timestamp()
   }
+}
+
+
+resource "null_resource" "demo1" {
+
+  provisioner "local-exec" {
+
+    command = <<EOF
+pwd
+whoami
+EOF
+  }
+
 }

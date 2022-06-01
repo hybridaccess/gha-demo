@@ -24,7 +24,5 @@ jobs:
         run: terraform fmt -check
         continue-on-error: false
       - run: terraform init
-        needs: [fmt]
       - run: terraform plan -out tfplan
-        needs: [terraform init]
       - run: terraform apply -auto-approve tfplan
