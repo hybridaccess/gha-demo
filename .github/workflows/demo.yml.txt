@@ -1,0 +1,98 @@
+name: demo-github-actions
+on: [push]
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    if: github.environment == 'prod'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
+  create-artifact:
+    runs-on: ubuntu-latest
+    if: github.environment == 'prod'
+      needs: [check-bats-version]
+    name: Save output
+    steps:
+      - shell: bash
+        run: |
+          expr 1 + 1 > output.log
+      - name: Upload output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: output-log-file
+          path: output.log
+  consume-artifact:
+    runs-on: ubuntu-latest
+    if: github.environment == 'prod'
+    needs: [create-artifact]
+    steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: output-log-file
+      - name: List current directory
+        run: pwd && ls -al
+      - name: Read output file
+        run: cat /home/runner/work/gha-demo/gha-demo/output.log
+  print-github-context:
+    runs-on: ubuntu-latest
+    if: github.environment == 'prod'
+    needs: [consume-artifact]
+    steps:
+      - name: Action Name
+        run: echo '${{ github.action }}'
+      - name: Action Repository
+        run: echo '${{ github.action_repository }}'
+      - name: Action User
+        run: echo '${{ github.actor}}'
+      - name: Github Repository
+        run: echo '${{ github.repository }}'
+      - name: Github Token
+        run: echo '${{ github.token}}'
+  print-all-contexts:
+    runs-on: ubuntu-latest
+    needs: [consume-artifact]
+    steps:
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
+  terraform-workflow:
+    runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ENVIRONMENT: 'sandbox'
+    defaults:
+      run:
+        working-directory: ./terraform
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: $(echo .terraform-version)
+      # - run: pwd && ls -al
+      - run: terraform version
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: false
+      - run: terraform init
+      - run: terraform validate
+      - run: terraform plan -out tfplan
+      - run: terraform apply -auto-approve tfplan
