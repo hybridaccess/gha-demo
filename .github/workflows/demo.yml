@@ -15,10 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: 'Az CLI login'
-        uses: azure/login@v1
+        uses: azure/login@v1.4.3
         with:
           creds: '{ "clientId": "3d29277a-50cd-464b-a4dd-877811d7c3e4", "clientSecret": "0-cK7jhFqnqdBsBvpqNubW~aaYhaBm9O4G", tenantId": "c555cdfa-e1fa-4957-b451-1ff2ce91d0a7", "subscriptionId": "02b44a0d-f98e-407e-b0c1-7d394305857e" }'
-      - uses: hashicorp/setup-terraform@v1.4.3
+      - uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: $(echo .terraform-version)
       # - run: pwd && ls -al
