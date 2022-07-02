@@ -10,7 +10,10 @@ env:
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   TERRAFORM_PRE_RUN: |
     # Install latest Azure CLI
-    curl -skL https://aka.ms/InstallAzureCLIDeb | bash  
+    curl -skL https://aka.ms/InstallAzureCLIDeb | bash
+    # Az Login
+    az login --service-principal -u "${{ secrets.CLIENT_ID }}" -p "${{ secrets.CLIENT_SECRET }}" --tenant "${{ secrets.TENANT_ID }}"
+    
 
 jobs:
   fmt-check:

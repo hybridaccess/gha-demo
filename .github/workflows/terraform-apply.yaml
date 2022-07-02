@@ -14,6 +14,7 @@ env:
   TERRAFORM_PRE_RUN: |
     # Install latest Azure CLI
     curl -skL https://aka.ms/InstallAzureCLIDeb | bash  
+    az login --service-principal -u "${{ secrets.CLIENT_ID }}" -p "${{ secrets.CLIENT_SECRET }}" --tenant "${{ secrets.TENANT_ID }}"
 
 jobs:
   tf-apply:
