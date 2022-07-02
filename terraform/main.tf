@@ -8,7 +8,8 @@ resource "azurerm_resource_group" "rg" {
 resource "null_resource" "demo" {
 
   provisioner "local-exec" {
-    command = "az group list -o table"
+    command     = "az group list -o table"
+    interpreter = ["/bin/bash", "-c"]
 
   }
 }
