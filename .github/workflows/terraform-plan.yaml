@@ -8,6 +8,9 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  TERRAFORM_PRE_RUN: |
+    # Install latest Azure CLI
+    curl -skL https://aka.ms/InstallAzureCLIDeb | bash  
 
 jobs:
   fmt-check:
@@ -29,6 +32,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          #creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+          creds: "${{ secrets.SP_AZURE_CREDS }}"
 
       - name: terraform plan
         uses: dflook/terraform-plan@v1
