@@ -21,8 +21,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - run: |
-          locate az
           echo $PATH
+          whereis az
       - name: terraform apply
         uses: dflook/terraform-apply@v1
         with:

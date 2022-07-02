@@ -12,4 +12,8 @@ resource "null_resource" "demo" {
     interpreter = ["/bin/bash", "-c"]
 
   }
+
+  triggers = {
+    run_always = timestamp()
+  }
 }
