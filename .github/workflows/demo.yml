@@ -1,0 +1,31 @@
+name: demo-github-actions
+on: [push]
+jobs:
+  terraform-workflow:
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: 'sandbox'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    defaults:
+      run:
+        working-directory: ./terraform
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: $(echo .terraform-version)
+      # - run: pwd && ls -al
+      - run: terraform version
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: false
+      - run: terraform init
+      - run: terraform plan -out tfplan
+      - name: terrform apply
+        if: ${{ false }}
+        run: terraform apply -auto-approve tfplan

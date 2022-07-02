@@ -1,2 +1,2 @@
 # gha-demo
-github action demo
+github action demo.
