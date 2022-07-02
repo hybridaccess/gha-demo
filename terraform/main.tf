@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "rg" {
 resource "null_resource" "demo" {
 
   provisioner "local-exec" {
-    command     = "echo $path"
+    command     = "/usr/bin/az group list"
     interpreter = ["/bin/bash", "-c"]
 
   }
