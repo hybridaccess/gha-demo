@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "rg" {
 resource "null_resource" "demo" {
 
   provisioner "local-exec" {
-    command = "s && pwd && whoami"
+    command = "az group list -o table"
 
   }
 }
