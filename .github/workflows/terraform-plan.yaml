@@ -30,6 +30,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: terraform plan
         uses: dflook/terraform-plan@v1
         with:
