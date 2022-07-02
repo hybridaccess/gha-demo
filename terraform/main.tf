@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "rg" {
 resource "null_resource" "demo" {
 
   provisioner "local-exec" {
-    command     = "locate az && echo $path"
+    command     = "echo $path"
     interpreter = ["/bin/bash", "-c"]
 
   }
